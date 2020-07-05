@@ -1,0 +1,21 @@
+{
+  "RECORDS":
+  [
+    {
+      "name":"آرارات شهر آفتاب",
+      "slig":"ARART",
+      "id": 1,
+      "geometry": {
+        "cordinates":[51.400507,35.768046]
+      }
+    },
+    {
+      "name":"آفریقا",
+      "slig":"Afrigha",
+      "id": 2,
+      "geometry": {
+        "cordinates":[51.421818,35.777014]
+      }
+    }
+  ]
+}
