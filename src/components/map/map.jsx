@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ReacMApGL, { Marker } from 'react-map-gl'
+import React, { useState, useEffect } from 'react';
+import ReacMApGL, { Marker, Popup } from 'react-map-gl'
 import myToken from './token';
 import * as mahalat from './Tehran_Mahalat.json'
 import Pin from './pin'
@@ -12,10 +12,21 @@ const Map = () => {
     longitude: 51.422151,
     zoom: 10
   })
-  const clickHandler =(mahal)=>{
-    alert(JSON.stringify(mahal))
+  const [selectedMahal, setSelectedMahal] = useState(null)
+  const clickHandler = (mahal) => {
+    setSelectedMahal(mahal)
   }
-  console.log(myToken)
+useEffect(()=>{
+  const listener = event =>{
+    if(event.key === "Escape"){
+      setSelectedMahal(null)
+    }
+  }
+  window.addEventListener("keydown",listener);
+  return ()=>{
+    window.removeEventListener("keydown",listener)
+  }
+},[])
   return (
     <ReacMApGL
       {...viewport}
@@ -33,10 +44,19 @@ const Map = () => {
           >
             <Pin
               size={40}
-              onClick={()=>clickHandler(mahal)}
+              onClick={() => clickHandler(mahal)}
             />
           </Marker>
         ))
+      }
+      {
+        selectedMahal ? <Popup
+          longitude={selectedMahal.geometry.cordinates[0]}
+          latitude={selectedMahal.geometry.cordinates[1]}
+          onClose={()=>setSelectedMahal(null)}
+         > 
+         {selectedMahal.name  }
+         </Popup>: null
       }
     </ReacMApGL>
   );
